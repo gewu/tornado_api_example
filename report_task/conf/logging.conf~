@@ -1,0 +1,44 @@
+[loggers]
+keys=root, report, err
+
+[handlers]
+keys = consoleHandler, rotatingFileHandler, rotatingFileHandler2
+
+[logger_root]
+level    = DEBUG
+handlers = consoleHandler
+
+[logger_report]
+level    = INFO
+handlers = rotatingFileHandler
+qualname = report
+
+[logger_err]
+leverl = WARN
+handlers = rotatingFileHandler2
+qualname = err
+
+[handler_consoleHandler]
+class     = StreamHandler
+level     = DEBUG
+formatter = standardFormatter
+args      = (sys.stdout,)
+
+[handler_rotatingFileHandler]
+class     = logging.handlers.TimedRotatingFileHandler
+level     = INFO
+formatter = standardFormatter
+args      = ("reporttask.log", "D", 1, 14)
+
+[handler_rotatingFileHandler2]
+class     = logging.handlers.TimedRotatingFileHandler
+level     = WARN
+formatter = standardFormatter
+args      = ("reporterr.log", "D", 1, 14)
+
+[formatters]
+keys = standardFormatter
+
+[formatter_standardFormatter]
+format  = [%(asctime)s][%(levelname)5s][%(filename)s:%(funcName)s:%(lineno)d] %(message)s
+datefmt = %Y-%m-%d %H:%M:%S
