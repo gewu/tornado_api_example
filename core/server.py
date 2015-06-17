@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""api sever"""
 #
 #--------------------------------------------------------------
 #
@@ -16,15 +17,17 @@
 #
 #
 
-__version__ = "0.0.1"
-__version_info__ = __version__.split(".")
+#__version__ = "0.0.1"
+#__version_info__ = __version__.split(".")
 
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 
 from handlers import NAFHandler
-from tornado.options import define, options
+from handlers import NAFUpdateHandler
+from tornado.options import define
+from tornado.options import options
 define("port", default=8888, help="run on the given port", type=int)
 
 #--------------------------------------------------------------
@@ -35,9 +38,11 @@ define("port", default=8888, help="run on the given port", type=int)
 #--------------------------------------------------------------
 
 class Application(tornado.web.Application):
+    """application api"""
     def __init__(self):
         handlers = [
                     (r"/api/naviappfeedback/?", NAFHandler),
+                    (r"/api/naviappfeedbackupdate/?", NAFUpdateHandler)
                    ]
         seetings = dict(
                 site_title = u"Intelligence System api 1.0",
